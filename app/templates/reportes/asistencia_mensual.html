@@ -1,0 +1,82 @@
+{% extends "appbuilder/base.html" %}
+{% block head_css %}{{ super() }}
+<style>
+  :root{--ep-azul:#1B4F72;--ep-gold:#F0B429;--ep-bg:#F4F8FB;--ep-white:#fff;}
+  body{background:var(--ep-bg);}
+  .navbar{background:var(--ep-azul)!important;border-bottom:3px solid var(--ep-gold);}
+  .rep-header{background:linear-gradient(135deg,var(--ep-azul),#2471A3);color:#fff;border-radius:10px;padding:1.2rem 2rem;margin-bottom:1.5rem;}
+  .rep-header h2{margin:0;font-weight:800;}
+  .rep-header p{margin:.2rem 0 0;font-size:.82rem;opacity:.8;}
+  .rep-box{background:var(--ep-white);border-radius:10px;box-shadow:0 2px 10px rgba(27,79,114,.08);padding:1.5rem 2rem;}
+  table.t{width:100%;border-collapse:collapse;}
+  table.t thead th{background:var(--ep-azul);color:#fff;padding:.65rem 1rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;}
+  table.t tbody td{padding:.6rem 1rem;border-bottom:1px solid #e3edf6;font-size:.85rem;}
+  table.t tbody tr:nth-child(even){background:#EAF4FB;}
+  table.t tbody tr:hover{background:#D6EAF8;}
+  .pct-ok{color:#1E8449;font-weight:700;} .pct-warn{color:#B7891E;font-weight:700;} .pct-err{color:#C0392B;font-weight:700;}
+  .btn-back{background:var(--ep-azul);color:#fff!important;padding:.4rem 1rem;border-radius:6px;text-decoration:none;font-size:.84rem;font-weight:600;}
+  @media print{.btn-back,.navbar,.sidebar{display:none!important;}}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container-fluid" style="padding:1.5rem;">
+  <div class="rep-header">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <h2><i class="fa fa-calendar-check-o"></i> Asistencia Mensual</h2>
+        <p>U.E. Profesor Elizardo Pérez G. · {{ mes }}</p>
+      </div>
+      <div>
+        <a href="/reportes/" class="btn-back"><i class="fa fa-arrow-left"></i> Volver</a>
+        <button onclick="window.print()" class="btn-back" style="margin-left:.5rem;background:#F0B429;color:#1A2535!important;">
+          <i class="fa fa-print"></i> Imprimir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="rep-box">
+    <h4 style="color:var(--ep-azul);font-weight:700;margin-bottom:1rem;">Registro de Asistencia – {{ mes }}</h4>
+    {% if datos %}
+    <table class="t">
+      <thead>
+        <tr>
+          <th>#</th><th>Apellido</th><th>Nombre</th><th>Curso</th>
+          <th style="text-align:center;">Días Registrados</th>
+          <th style="text-align:center;">Presentes</th>
+          <th style="text-align:center;">Justificados</th>
+          <th style="text-align:center;">% Asistencia</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in datos %}
+        {% set pct = ((row[4] or 0) / row[3] * 100)|round(1) if row[3] > 0 else 0 %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td><strong>{{ row[0] }}</strong></td>
+          <td>{{ row[1] }}</td>
+          <td>{{ row[2] }}</td>
+          <td style="text-align:center;">{{ row[3] }}</td>
+          <td style="text-align:center;">{{ row[4] or 0 }}</td>
+          <td style="text-align:center;">{{ row[5] or 0 }}</td>
+          <td style="text-align:center;">
+            <span class="{% if pct >= 80 %}pct-ok{% elif pct >= 60 %}pct-warn{% else %}pct-err{% endif %}">
+              {{ pct }}%
+            </span>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p style="font-size:.75rem;color:#9aabb8;margin-top:1rem;">
+      * Umbral mínimo de asistencia: 80% | Verde ≥80% · Amarillo 60-79% · Rojo &lt;60%
+    </p>
+    {% else %}
+    <div style="text-align:center;padding:3rem;color:#9aabb8;">
+      <i class="fa fa-calendar-o" style="font-size:3rem;display:block;margin-bottom:1rem;"></i>
+      Sin registros de asistencia para {{ mes }}
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

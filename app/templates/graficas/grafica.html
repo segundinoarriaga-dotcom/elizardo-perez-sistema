@@ -1,0 +1,46 @@
+{% extends "appbuilder/base.html" %}
+{% block head_css %}{{ super() }}
+<style>
+  :root{--ep-azul:#1B4F72;--ep-gold:#F0B429;--ep-bg:#F4F8FB;--ep-white:#fff;}
+  body{background:var(--ep-bg);}
+  .navbar{background:var(--ep-azul)!important;border-bottom:3px solid var(--ep-gold);}
+  .ph{background:linear-gradient(135deg,var(--ep-azul),#2471A3);color:#fff;border-radius:10px;padding:1.2rem 2rem;margin-bottom:1.5rem;}
+  .ph h2{margin:0;font-weight:800;}
+  .ph p{margin:.3rem 0 0;font-size:.82rem;opacity:.8;}
+  .gbox{background:var(--ep-white);border-radius:10px;box-shadow:0 2px 10px rgba(27,79,114,.08);padding:2rem;text-align:center;}
+  .gbox img{max-width:100%;border-radius:8px;border:1px solid #AED6F1;}
+  .gdesc{margin-top:1rem;font-size:.88rem;color:#6b7c93;}
+  .btn-back{background:var(--ep-azul);color:#fff!important;padding:.4rem 1rem;border-radius:6px;text-decoration:none;font-size:.84rem;font-weight:600;}
+  .btn-back:hover{background:#2471A3;}
+  @media print{.btn-back,.navbar,.sidebar{display:none!important;}}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container-fluid" style="padding:1.5rem;">
+  <div class="ph">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <h2><i class="fa fa-bar-chart"></i> {{ titulo }}</h2>
+        <p>U.E. Profesor Elizardo Pérez G. · Cochabamba</p>
+      </div>
+      <div>
+        <a href="/graficas/" class="btn-back"><i class="fa fa-arrow-left"></i> Volver</a>
+        <button onclick="window.print()" class="btn-back" style="margin-left:.5rem;background:#F0B429;color:#1A2535!important;">
+          <i class="fa fa-print"></i> Imprimir
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="gbox">
+    {% if imagen %}
+      <img src="data:image/png;base64,{{ imagen }}" alt="{{ titulo }}" />
+      <p class="gdesc">{{ descripcion }}</p>
+    {% else %}
+      <div style="padding:4rem;color:#9aabb8;">
+        <i class="fa fa-bar-chart" style="font-size:3rem;display:block;margin-bottom:1rem;"></i>
+        <p>Sin datos suficientes para generar la gráfica.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

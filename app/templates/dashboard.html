@@ -1,0 +1,179 @@
+{% extends "appbuilder/base.html" %}
+
+{% block head_css %}
+{{ super() }}
+<style>
+  :root {
+    --ep-azul:#1B4F72; --ep-azul-med:#2980B9; --ep-gold:#F0B429;
+    --ep-bg:#F4F8FB; --ep-white:#fff; --ep-success:#1E8449;
+  }
+  body { background: var(--ep-bg); }
+  .navbar { background: var(--ep-azul) !important; border-bottom: 3px solid var(--ep-gold); }
+  .navbar-brand { font-weight:700; }
+
+  .school-banner {
+    background: linear-gradient(135deg, var(--ep-azul) 0%, #2471A3 100%);
+    color: #fff; border-radius: 12px; padding: 1.8rem 2rem;
+    margin-bottom: 1.8rem; position: relative; overflow: hidden;
+  }
+  .school-banner::after {
+    content: "🏫"; font-size: 7rem; position: absolute;
+    right: 1.5rem; top: 50%; transform: translateY(-50%); opacity: .12;
+  }
+  .school-banner h1 { font-size: 1.5rem; font-weight: 800; margin: 0 0 .3rem; }
+  .school-banner p  { margin: 0; font-size: .88rem; opacity: .8; }
+  .school-banner .badge-gestion {
+    background: var(--ep-gold); color: #1A2535; font-weight: 700;
+    padding: .3rem .8rem; border-radius: 20px; font-size: .78rem;
+    display: inline-block; margin-top: .6rem;
+  }
+
+  .stat-card {
+    background: var(--ep-white); border-radius: 10px; padding: 1.3rem 1.5rem;
+    box-shadow: 0 2px 10px rgba(27,79,114,.10); border-left: 5px solid var(--ep-azul);
+    transition: transform .2s; height: 100%;
+  }
+  .stat-card:hover { transform: translateY(-3px); }
+  .stat-card .num  { font-size: 2.4rem; font-weight: 800; color: var(--ep-azul); line-height: 1; }
+  .stat-card .lbl  { font-size: .8rem; color: #6b7c93; text-transform: uppercase; letter-spacing: .05em; margin-top: .2rem; }
+  .stat-card .ico  { font-size: 1.8rem; opacity: .15; float: right; color: var(--ep-azul); }
+  .stat-card.gold  { border-left-color: var(--ep-gold); }
+  .stat-card.gold .num { color: #B7891E; }
+  .stat-card.green { border-left-color: var(--ep-success); }
+  .stat-card.green .num { color: var(--ep-success); }
+  .stat-card.teal  { border-left-color: #17A589; }
+  .stat-card.teal .num { color: #17A589; }
+
+  .section-title {
+    font-size: .75rem; font-weight: 700; color: var(--ep-azul);
+    text-transform: uppercase; letter-spacing: .1em;
+    border-bottom: 2px solid #AED6F1; padding-bottom: .4rem; margin-bottom: 1rem;
+  }
+  .table-mini { width: 100%; border-collapse: collapse; }
+  .table-mini th { background: var(--ep-azul); color:#fff; padding:.5rem .8rem; font-size:.78rem; }
+  .table-mini td { padding:.5rem .8rem; border-bottom:1px solid #e3edf6; font-size:.85rem; }
+  .table-mini tr:nth-child(even) td { background:#EAF4FB; }
+
+  .quick-link {
+    display: block; background: var(--ep-white); border-radius: 8px;
+    padding: .9rem 1rem; box-shadow: 0 1px 6px rgba(27,79,114,.09);
+    text-decoration: none !important; color: var(--ep-azul) !important;
+    border-left: 4px solid var(--ep-azul-med); margin-bottom: .6rem;
+    font-weight: 600; font-size: .88rem; transition: all .15s;
+  }
+  .quick-link:hover { background: #EAF4FB; border-left-color: var(--ep-gold); }
+  .quick-link i { margin-right: .5rem; width: 18px; text-align: center; }
+
+  .promedio-badge {
+    display: inline-block; padding: .6rem 1.5rem; border-radius: 30px;
+    font-size: 2rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--ep-azul), var(--ep-azul-med));
+    color: #fff; box-shadow: 0 4px 12px rgba(27,79,114,.3);
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid" style="padding:1.5rem;">
+
+  <!-- BANNER ESCUELA -->
+  <div class="school-banner">
+    <h1><i class="fa fa-graduation-cap"></i> U.E. Profesor Elizardo Pérez G.</h1>
+    <p>📍 Villa Pagador · Av. La Joya y Bella Vista · Cochabamba, Bolivia</p>
+    <span class="badge-gestion">Gestión {{ now.year if now else '2025' }}</span>
+  </div>
+
+  <!-- ESTADÍSTICAS -->
+  <p class="section-title"><i class="fa fa-tachometer"></i> Resumen General</p>
+  <div class="row" style="margin-bottom:1.5rem;">
+    <div class="col-sm-3" style="padding-right:.5rem; padding-left:.5rem; margin-bottom:1rem;">
+      <div class="stat-card">
+        <span class="ico fa fa-users"></span>
+        <div class="num">{{ total_estudiantes }}</div>
+        <div class="lbl">Estudiantes Activos</div>
+      </div>
+    </div>
+    <div class="col-sm-3" style="padding-right:.5rem; padding-left:.5rem; margin-bottom:1rem;">
+      <div class="stat-card gold">
+        <span class="ico fa fa-chalkboard-teacher" style="color:#B7891E;"></span>
+        <div class="num">{{ total_docentes }}</div>
+        <div class="lbl">Docentes</div>
+      </div>
+    </div>
+    <div class="col-sm-3" style="padding-right:.5rem; padding-left:.5rem; margin-bottom:1rem;">
+      <div class="stat-card green">
+        <span class="ico fa fa-book" style="color:#1E8449;"></span>
+        <div class="num">{{ total_cursos }}</div>
+        <div class="lbl">Cursos Activos</div>
+      </div>
+    </div>
+    <div class="col-sm-3" style="padding-right:.5rem; padding-left:.5rem; margin-bottom:1rem;">
+      <div class="stat-card teal">
+        <span class="ico fa fa-list" style="color:#17A589;"></span>
+        <div class="num">{{ total_materias }}</div>
+        <div class="lbl">Materias</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- TABLA POR CURSO -->
+    <div class="col-sm-7" style="padding-right:.5rem; padding-left:.5rem; margin-bottom:1rem;">
+      <div style="background:#fff; border-radius:10px; box-shadow:0 2px 10px rgba(27,79,114,.08); padding:1.3rem;">
+        <p class="section-title"><i class="fa fa-table"></i> Estudiantes por Curso</p>
+        <table class="table-mini">
+          <thead>
+            <tr><th>Curso</th><th style="text-align:center;">Total</th><th>Barra</th></tr>
+          </thead>
+          <tbody>
+            {% for nombre, total in por_curso %}
+            <tr>
+              <td>{{ nombre }}</td>
+              <td style="text-align:center; font-weight:700;">{{ total }}</td>
+              <td style="width:45%;">
+                <div style="background:#EAF4FB; border-radius:4px; height:10px; overflow:hidden;">
+                  <div style="background:#1B4F72; height:10px; width:{{ [(total/40*100)|int, 100]|min }}%;
+                              border-radius:4px; transition:width .4s;"></div>
+                </div>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="3" style="text-align:center; color:#999;">Sin datos aún</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PANEL DERECHO -->
+    <div class="col-sm-5" style="padding-right:.5rem; padding-left:.5rem;">
+      <!-- Promedio -->
+      <div style="background:#fff; border-radius:10px; box-shadow:0 2px 10px rgba(27,79,114,.08);
+                  padding:1.3rem; text-align:center; margin-bottom:1rem;">
+        <p class="section-title"><i class="fa fa-star"></i> Promedio General de Notas</p>
+        <div class="promedio-badge">{{ promedio }}<span style="font-size:1.1rem; font-weight:400;">/100</span></div>
+        <p style="font-size:.8rem; color:#6b7c93; margin-top:.7rem;">
+          {% if promedio >= 75 %}<span style="color:#1E8449;">✔ Buen rendimiento académico</span>
+          {% elif promedio >= 51 %}<span style="color:#B7891E;">⚠ Rendimiento aceptable</span>
+          {% else %}<span style="color:#C0392B;">✖ Rendimiento bajo — requiere atención</span>{% endif %}
+        </p>
+      </div>
+
+      <!-- Accesos rápidos -->
+      <div style="background:#fff; border-radius:10px; box-shadow:0 2px 10px rgba(27,79,114,.08); padding:1.3rem;">
+        <p class="section-title"><i class="fa fa-bolt"></i> Acceso Rápido</p>
+        <a href="/estudianteview/list" class="quick-link"><i class="fa fa-user-plus"></i> Gestionar Estudiantes</a>
+        <a href="/notaview/list"       class="quick-link"><i class="fa fa-pencil"></i> Registrar Notas</a>
+        <a href="/asistenciaview/list" class="quick-link"><i class="fa fa-check-square"></i> Registrar Asistencia</a>
+        <a href="/reportes/"           class="quick-link"><i class="fa fa-file-text"></i> Ver Reportes</a>
+        <a href="/graficas/"           class="quick-link"><i class="fa fa-bar-chart"></i> Ver Gráficas</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pie de página informativo -->
+  <div style="text-align:center; margin-top:1.5rem; font-size:.76rem; color:#9aabb8;">
+    Sistema de Gestión Académica · U.E. Profesor Elizardo Pérez G. · Cochabamba, Bolivia
+  </div>
+</div>
+{% endblock %}

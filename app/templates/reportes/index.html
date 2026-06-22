@@ -1,0 +1,49 @@
+{% extends "appbuilder/base.html" %}
+{% block head_css %}{{ super() }}
+<style>
+  :root{--ep-azul:#1B4F72;--ep-gold:#F0B429;--ep-bg:#F4F8FB;--ep-white:#fff;}
+  body{background:var(--ep-bg);}
+  .navbar{background:var(--ep-azul)!important;border-bottom:3px solid var(--ep-gold);}
+  .ph{background:linear-gradient(135deg,var(--ep-azul),#2471A3);color:#fff;border-radius:10px;padding:1.2rem 2rem;margin-bottom:1.5rem;}
+  .ph h2{margin:0;font-weight:800;font-size:1.3rem;}
+  .ph p{margin:.3rem 0 0;font-size:.82rem;opacity:.8;}
+  .rcard{background:var(--ep-white);border-radius:10px;box-shadow:0 2px 10px rgba(27,79,114,.09);
+         padding:1.8rem 1.5rem;text-align:center;border-top:4px solid var(--ep-azul);
+         transition:all .2s;text-decoration:none!important;display:block;color:#1A2535!important;}
+  .rcard:hover{transform:translateY(-4px);box-shadow:0 8px 22px rgba(27,79,114,.18);border-top-color:var(--ep-gold);}
+  .rcard i{font-size:2.5rem;color:var(--ep-azul);margin-bottom:.8rem;display:block;}
+  .rcard h5{font-weight:700;margin-bottom:.4rem;}
+  .rcard p{font-size:.82rem;color:#6b7c93;margin:0;}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container-fluid" style="padding:1.5rem;">
+  <div class="ph">
+    <h2><i class="fa fa-file-text"></i> Reportes Académicos</h2>
+    <p>U.E. Profesor Elizardo Pérez G. · Villa Pagador, Cochabamba</p>
+  </div>
+  <div class="row">
+    <div class="col-sm-4" style="padding:.5rem;">
+      <a href="/reportes/estudiantes_por_curso" class="rcard">
+        <i class="fa fa-users"></i>
+        <h5>Reporte 1<br>Estudiantes por Curso</h5>
+        <p>Cantidad de estudiantes matriculados agrupados por curso, nivel y turno.</p>
+      </a>
+    </div>
+    <div class="col-sm-4" style="padding:.5rem;">
+      <a href="/reportes/calificaciones_materia" class="rcard">
+        <i class="fa fa-star"></i>
+        <h5>Reporte 2<br>Calificaciones por Materia</h5>
+        <p>Promedio, nota mínima y máxima por materia en la gestión actual.</p>
+      </a>
+    </div>
+    <div class="col-sm-4" style="padding:.5rem;">
+      <a href="/reportes/asistencia_mensual" class="rcard">
+        <i class="fa fa-calendar-check-o"></i>
+        <h5>Reporte 3<br>Asistencia Mensual</h5>
+        <p>Registro de asistencia de cada estudiante durante el mes en curso.</p>
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

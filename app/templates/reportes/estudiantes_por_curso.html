@@ -1,0 +1,93 @@
+{% extends "appbuilder/base.html" %}
+{% block head_css %}{{ super() }}
+<style>
+  :root{--ep-azul:#1B4F72;--ep-gold:#F0B429;--ep-bg:#F4F8FB;--ep-white:#fff;}
+  body{background:var(--ep-bg);}
+  .navbar{background:var(--ep-azul)!important;border-bottom:3px solid var(--ep-gold);}
+  .rep-header{background:linear-gradient(135deg,var(--ep-azul),#2471A3);color:#fff;border-radius:10px;padding:1.2rem 2rem;margin-bottom:1.5rem;}
+  .rep-header h2{margin:0;font-weight:800;}
+  .rep-header p{margin:.2rem 0 0;font-size:.82rem;opacity:.8;}
+  .rep-box{background:var(--ep-white);border-radius:10px;box-shadow:0 2px 10px rgba(27,79,114,.08);padding:1.5rem 2rem;}
+  table.t{width:100%;border-collapse:collapse;}
+  table.t thead th{background:var(--ep-azul);color:#fff;padding:.65rem 1rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;}
+  table.t tbody td{padding:.6rem 1rem;border-bottom:1px solid #e3edf6;font-size:.88rem;}
+  table.t tbody tr:nth-child(even){background:#EAF4FB;}
+  table.t tbody tr:hover{background:#D6EAF8;}
+  table.t tfoot td{background:#EAF4FB;font-weight:700;padding:.6rem 1rem;border-top:2px solid var(--ep-azul);}
+  .badge-p{background:#D6EAF8;color:var(--ep-azul);padding:.2rem .7rem;border-radius:12px;font-size:.75rem;font-weight:600;}
+  .badge-s{background:#FEF9E7;color:#B7891E;padding:.2rem .7rem;border-radius:12px;font-size:.75rem;font-weight:600;}
+  .badge-m{background:#EAFAF1;color:#1E8449;padding:.2rem .7rem;border-radius:12px;font-size:.75rem;font-weight:600;}
+  .badge-t{background:#F9EBEA;color:#922B21;padding:.2rem .7rem;border-radius:12px;font-size:.75rem;font-weight:600;}
+  .btn-back{background:var(--ep-azul);color:#fff!important;padding:.4rem 1rem;border-radius:6px;text-decoration:none;font-size:.84rem;font-weight:600;}
+  .btn-back:hover{background:#2471A3;}
+  @media print{.btn-back,.navbar,.sidebar{display:none!important;} body{background:#fff!important;}}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container-fluid" style="padding:1.5rem;">
+  <div class="rep-header">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <h2><i class="fa fa-users"></i> Estudiantes por Curso</h2>
+        <p>U.E. Profesor Elizardo Pérez G. · Villa Pagador, Cochabamba</p>
+      </div>
+      <div>
+        <a href="/reportes/" class="btn-back"><i class="fa fa-arrow-left"></i> Volver</a>
+        <button onclick="window.print()" class="btn-back" style="margin-left:.5rem;background:#F0B429;color:#1A2535!important;">
+          <i class="fa fa-print"></i> Imprimir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="rep-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+      <h4 style="margin:0;color:var(--ep-azul);font-weight:700;">Matrícula por Curso – Gestión 2025</h4>
+      <span style="font-size:.78rem;color:#6b7c93;">Generado: {{ now.strftime('%d/%m/%Y %H:%M') if now else '' }}</span>
+    </div>
+    <table class="t">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Curso</th>
+          <th>Nivel</th>
+          <th>Turno</th>
+          <th style="text-align:center;">Total Estudiantes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% set total_general = namespace(v=0) %}
+        {% for row in datos %}
+        {% set total_general.v = total_general.v + row[3] %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td><strong>{{ row[0] }}</strong></td>
+          <td>
+            {% if row[2] == 'Primaria' %}<span class="badge-p">{{ row[2] }}</span>
+            {% else %}<span class="badge-s">{{ row[2] }}</span>{% endif %}
+          </td>
+          <td>
+            {% if row[1] == 'Mañana' %}<span class="badge-m">{{ row[1] }}</span>
+            {% else %}<span class="badge-t">{{ row[1] }}</span>{% endif %}
+          </td>
+          <td style="text-align:center;">
+            <strong>{{ row[3] }}</strong>
+            <div style="background:#EAF4FB;border-radius:4px;height:8px;margin-top:4px;overflow:hidden;">
+              <div style="background:#1B4F72;height:8px;width:{{ [(row[3]/35*100)|int, 100]|min }}%;border-radius:4px;"></div>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" style="text-align:center;color:#999;padding:1.5rem;">Sin datos registrados</td></tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4">TOTAL GENERAL</td>
+          <td style="text-align:center;">{{ total_general.v }}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+{% endblock %}

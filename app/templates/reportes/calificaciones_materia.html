@@ -1,0 +1,89 @@
+{% extends "appbuilder/base.html" %}
+{% block head_css %}{{ super() }}
+<style>
+  :root{--ep-azul:#1B4F72;--ep-gold:#F0B429;--ep-bg:#F4F8FB;--ep-white:#fff;}
+  body{background:var(--ep-bg);}
+  .navbar{background:var(--ep-azul)!important;border-bottom:3px solid var(--ep-gold);}
+  .rep-header{background:linear-gradient(135deg,var(--ep-azul),#2471A3);color:#fff;border-radius:10px;padding:1.2rem 2rem;margin-bottom:1.5rem;}
+  .rep-header h2{margin:0;font-weight:800;}
+  .rep-header p{margin:.2rem 0 0;font-size:.82rem;opacity:.8;}
+  .rep-box{background:var(--ep-white);border-radius:10px;box-shadow:0 2px 10px rgba(27,79,114,.08);padding:1.5rem 2rem;}
+  table.t{width:100%;border-collapse:collapse;}
+  table.t thead th{background:var(--ep-azul);color:#fff;padding:.65rem 1rem;font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;}
+  table.t tbody td{padding:.6rem 1rem;border-bottom:1px solid #e3edf6;font-size:.88rem;}
+  table.t tbody tr:nth-child(even){background:#EAF4FB;}
+  table.t tbody tr:hover{background:#D6EAF8;}
+  .ok{color:#1E8449;font-weight:700;} .warn{color:#B7891E;font-weight:700;} .err{color:#C0392B;font-weight:700;}
+  .bar-wrap{background:#EAF4FB;border-radius:4px;height:10px;overflow:hidden;margin-top:3px;}
+  .bar-fill{height:10px;border-radius:4px;}
+  .btn-back{background:var(--ep-azul);color:#fff!important;padding:.4rem 1rem;border-radius:6px;text-decoration:none;font-size:.84rem;font-weight:600;}
+  @media print{.btn-back,.navbar,.sidebar{display:none!important;}}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container-fluid" style="padding:1.5rem;">
+  <div class="rep-header">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <h2><i class="fa fa-star"></i> Calificaciones por Materia</h2>
+        <p>U.E. Profesor Elizardo Pérez G. · Gestión {{ gestion }}</p>
+      </div>
+      <div>
+        <a href="/reportes/" class="btn-back"><i class="fa fa-arrow-left"></i> Volver</a>
+        <button onclick="window.print()" class="btn-back" style="margin-left:.5rem;background:#F0B429;color:#1A2535!important;">
+          <i class="fa fa-print"></i> Imprimir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="rep-box">
+    <h4 style="color:var(--ep-azul);font-weight:700;margin-bottom:1rem;">Resumen de Calificaciones – Gestión {{ gestion }}</h4>
+    <table class="t">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Materia</th>
+          <th style="text-align:center;">Registros</th>
+          <th style="text-align:center;">Promedio</th>
+          <th style="text-align:center;">Mínima</th>
+          <th style="text-align:center;">Máxima</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in datos %}
+        {% set prom = row[2]|round(1) if row[2] else 0 %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td><strong>{{ row[0] }}</strong></td>
+          <td style="text-align:center;">{{ row[1] }}</td>
+          <td style="text-align:center;">
+            <span class="{% if prom >= 75 %}ok{% elif prom >= 51 %}warn{% else %}err{% endif %}">
+              {{ prom }}
+            </span>
+            <div class="bar-wrap">
+              <div class="bar-fill" style="
+                width:{{ [(prom/100*100)|int, 100]|min }}%;
+                background:{% if prom >= 75 %}#1E8449{% elif prom >= 51 %}#F0B429{% else %}#C0392B{% endif %};"></div>
+            </div>
+          </td>
+          <td style="text-align:center;">{{ row[3]|round(1) if row[3] else 'N/A' }}</td>
+          <td style="text-align:center;">{{ row[4]|round(1) if row[4] else 'N/A' }}</td>
+          <td>
+            {% if prom >= 75 %}<span style="background:#D5F5E3;color:#1E8449;padding:.2rem .6rem;border-radius:12px;font-size:.75rem;font-weight:600;">Bueno</span>
+            {% elif prom >= 51 %}<span style="background:#FEF9E7;color:#B7891E;padding:.2rem .6rem;border-radius:12px;font-size:.75rem;font-weight:600;">Regular</span>
+            {% else %}<span style="background:#FADBD8;color:#C0392B;padding:.2rem .6rem;border-radius:12px;font-size:.75rem;font-weight:600;">Bajo</span>{% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" style="text-align:center;color:#999;padding:1.5rem;">Sin calificaciones registradas para la gestión {{ gestion }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p style="font-size:.75rem;color:#9aabb8;margin-top:1rem;">
+      * Escala de calificación boliviana: 0-50 Insuficiente | 51-70 Regular | 71-84 Bueno | 85-100 Excelente
+    </p>
+  </div>
+</div>
+{% endblock %}

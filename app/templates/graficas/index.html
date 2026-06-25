@@ -1,33 +1,33 @@
 {% extends "appbuilder/base.html" %}
 {% block head_css %}{{ super() }}
 <style>
-  :root{--ep-azul:#1B4F72;--ep-gold:#F0B429;--ep-bg:#F4F8FB;--ep-white:#fff;}
+  :root{--ep-azul:#1B1464;--ep-gold:#F5C400;--ep-bg:#F4F6FB;--ep-white:#fff;}
   body{background:var(--ep-bg);}
-  .navbar{background:var(--ep-azul)!important;border-bottom:3px solid var(--ep-gold);}
-  .ph{background:linear-gradient(135deg,var(--ep-azul),#2471A3);color:#fff;border-radius:10px;padding:1.2rem 2rem;margin-bottom:1.5rem;}
-  .ph h2{margin:0;font-weight:800;font-size:1.3rem;}
-  .ph p{margin:.3rem 0 0;font-size:.82rem;opacity:.8;}
-  .gcard{background:var(--ep-white);border-radius:10px;box-shadow:0 2px 10px rgba(27,79,114,.09);
-         padding:1.8rem 1.5rem;text-align:center;border-top:4px solid #2980B9;
-         transition:all .2s;text-decoration:none!important;display:block;color:#1A2535!important;}
-  .gcard:hover{transform:translateY(-4px);box-shadow:0 8px 22px rgba(27,79,114,.18);border-top-color:var(--ep-gold);}
-  .gcard i{font-size:2.5rem;color:#2980B9;margin-bottom:.8rem;display:block;}
-  .gcard h5{font-weight:700;margin-bottom:.4rem;}
-  .gcard p{font-size:.82rem;color:#6b7c93;margin:0;}
+  .navbar{background:var(--ep-azul)!important;border-bottom:4px solid var(--ep-gold);}
+  .ph{background:var(--ep-azul);color:#fff;border-radius:12px;padding:1.1rem 1.8rem;margin-bottom:1.3rem;border-left:6px solid var(--ep-gold);}
+  .ph h2{margin:0;font-weight:700;font-size:1.2rem;color:#fff;}
+  .ph p{margin:.2rem 0 0;font-size:.78rem;opacity:.75;color:#fff;}
+  .gcard{background:var(--ep-white);border-radius:10px;box-shadow:0 2px 10px rgba(27,20,100,.09);padding:1.6rem 1.4rem;text-align:center;border-top:4px solid var(--ep-azul);transition:all .2s;text-decoration:none!important;display:block;color:#1A1A2E!important;}
+  .gcard:hover{transform:translateY(-4px);box-shadow:0 8px 22px rgba(27,20,100,.18);border-top-color:var(--ep-gold);}
+  .gcard i{font-size:2.2rem;color:var(--ep-azul);margin-bottom:.7rem;display:block;}
+  .gcard h5{font-weight:700;margin-bottom:.3rem;font-size:.95rem;}
+  .gcard p{font-size:.78rem;color:#6b7c93;margin:0;}
+  .badge-pron{background:#EEF2FF;color:#1B1464;border-radius:12px;padding:.15rem .5rem;font-size:.7rem;font-weight:600;margin-top:.4rem;display:inline-block;}
 </style>
 {% endblock %}
 {% block content %}
-<div class="container-fluid" style="padding:1.5rem;">
+<div class="container-fluid" style="padding:1.4rem;">
   <div class="ph">
-    <h2><i class="fa fa-line-chart"></i> Gráficas Estadísticas</h2>
-    <p>U.E. Profesor Elizardo Pérez G. · Villa Pagador, Cochabamba</p>
+    <h2><i class="fa fa-line-chart"></i> Gráficas Estadísticas y Pronósticos</h2>
+    <p>U.E. Prof. Elizardo Pérez G. · Alto Pagador, Cochabamba · Cada gráfica incluye 3 pronósticos de tendencia</p>
   </div>
   <div class="row">
     <div class="col-sm-4" style="padding:.5rem;">
       <a href="/graficas/estudiantes_nivel" class="gcard">
         <i class="fa fa-pie-chart"></i>
         <h5>Gráfica 1<br>Estudiantes por Nivel</h5>
-        <p>Distribución porcentual entre nivel Primario y Secundario.</p>
+        <p>Distribución porcentual entre Primaria y Secundaria.</p>
+        <span class="badge-pron">3 pronósticos incluidos</span>
       </a>
     </div>
     <div class="col-sm-4" style="padding:.5rem;">
@@ -35,6 +35,7 @@
         <i class="fa fa-bar-chart"></i>
         <h5>Gráfica 2<br>Promedio por Materia</h5>
         <p>Comparación de promedios académicos por asignatura.</p>
+        <span class="badge-pron">3 pronósticos incluidos</span>
       </a>
     </div>
     <div class="col-sm-4" style="padding:.5rem;">
@@ -42,6 +43,7 @@
         <i class="fa fa-area-chart"></i>
         <h5>Gráfica 3<br>Asistencia por Curso</h5>
         <p>Porcentaje de asistencia mensual comparado entre cursos.</p>
+        <span class="badge-pron">3 pronósticos incluidos</span>
       </a>
     </div>
   </div>

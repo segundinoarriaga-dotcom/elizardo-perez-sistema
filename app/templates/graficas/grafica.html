@@ -1,45 +1,78 @@
 {% extends "appbuilder/base.html" %}
 {% block head_css %}{{ super() }}
 <style>
-  :root{--ep-azul:#1B4F72;--ep-gold:#F0B429;--ep-bg:#F4F8FB;--ep-white:#fff;}
+  :root{--ep-azul:#1B1464;--ep-gold:#F5C400;--ep-bg:#F4F6FB;--ep-white:#fff;}
   body{background:var(--ep-bg);}
-  .navbar{background:var(--ep-azul)!important;border-bottom:3px solid var(--ep-gold);}
-  .ph{background:linear-gradient(135deg,var(--ep-azul),#2471A3);color:#fff;border-radius:10px;padding:1.2rem 2rem;margin-bottom:1.5rem;}
-  .ph h2{margin:0;font-weight:800;}
-  .ph p{margin:.3rem 0 0;font-size:.82rem;opacity:.8;}
-  .gbox{background:var(--ep-white);border-radius:10px;box-shadow:0 2px 10px rgba(27,79,114,.08);padding:2rem;text-align:center;}
-  .gbox img{max-width:100%;border-radius:8px;border:1px solid #AED6F1;}
-  .gdesc{margin-top:1rem;font-size:.88rem;color:#6b7c93;}
-  .btn-back{background:var(--ep-azul);color:#fff!important;padding:.4rem 1rem;border-radius:6px;text-decoration:none;font-size:.84rem;font-weight:600;}
-  .btn-back:hover{background:#2471A3;}
-  @media print{.btn-back,.navbar,.sidebar{display:none!important;}}
+  .navbar{background:var(--ep-azul)!important;border-bottom:4px solid var(--ep-gold);}
+  .ph{background:var(--ep-azul);color:#fff;border-radius:12px;padding:1.1rem 1.8rem;margin-bottom:1.2rem;border-left:6px solid var(--ep-gold);}
+  .ph h2{margin:0;font-weight:700;color:#fff;}
+  .ph p{margin:.2rem 0 0;font-size:.78rem;opacity:.75;color:#fff;}
+  .gbox{background:var(--ep-white);border-radius:10px;box-shadow:0 2px 10px rgba(27,20,100,.08);padding:1.5rem;text-align:center;margin-bottom:1.2rem;}
+  .gbox img{max-width:100%;border-radius:8px;border:2px solid #EEF2FF;}
+  .gdesc{margin-top:.8rem;font-size:.85rem;color:#6b7c93;}
+  .btn-back{background:var(--ep-azul);color:#fff!important;padding:.4rem 1rem;border-radius:6px;text-decoration:none;font-size:.82rem;font-weight:600;}
+  .btn-back:hover{background:#3949AB;}
+  .btn-print{background:var(--ep-gold);color:#1B1464!important;padding:.4rem 1rem;border-radius:6px;text-decoration:none;font-size:.82rem;font-weight:600;margin-left:.4rem;border:none;cursor:pointer;}
+
+  /* PRONÓSTICOS */
+  .pron-section{background:var(--ep-white);border-radius:10px;box-shadow:0 2px 10px rgba(27,20,100,.08);padding:1.4rem 1.6rem;margin-bottom:1.2rem;}
+  .pron-title{font-size:.75rem;font-weight:700;color:var(--ep-azul);text-transform:uppercase;letter-spacing:.08em;border-bottom:2px solid var(--ep-gold);padding-bottom:.4rem;margin-bottom:1rem;}
+  .pron-card{border-radius:8px;padding:1rem 1.2rem;margin-bottom:.8rem;border-left:4px solid transparent;}
+  .pron-card.p1{background:#EEF2FF;border-left-color:#1B1464;}
+  .pron-card.p2{background:#FFF8E1;border-left-color:#F5C400;}
+  .pron-card.p3{background:#E8F5E9;border-left-color:#1E8449;}
+  .pron-num{display:inline-block;background:var(--ep-azul);color:#fff;border-radius:50%;width:24px;height:24px;text-align:center;line-height:24px;font-size:.75rem;font-weight:700;margin-right:.5rem;}
+  .pron-card.p2 .pron-num{background:#9a7a00;}
+  .pron-card.p3 .pron-num{background:#1E8449;}
+  .pron-label{font-size:.82rem;font-weight:600;color:#1A1A2E;margin-bottom:.25rem;}
+  .pron-text{font-size:.8rem;color:#4a5568;line-height:1.6;}
+  .pron-valor{display:inline-block;background:rgba(27,20,100,.1);color:var(--ep-azul);border-radius:4px;padding:.1rem .4rem;font-size:.75rem;font-weight:600;margin-top:.3rem;}
+
+  @media print{.btn-back,.btn-print,.navbar,.sidebar{display:none!important;}}
 </style>
 {% endblock %}
 {% block content %}
-<div class="container-fluid" style="padding:1.5rem;">
+<div class="container-fluid" style="padding:1.4rem;">
   <div class="ph">
-    <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;">
       <div>
         <h2><i class="fa fa-bar-chart"></i> {{ titulo }}</h2>
-        <p>U.E. Profesor Elizardo Pérez G. · Cochabamba</p>
+        <p>U.E. Prof. Elizardo Pérez G. · Alto Pagador, Cochabamba</p>
       </div>
       <div>
         <a href="/graficas/" class="btn-back"><i class="fa fa-arrow-left"></i> Volver</a>
-        <button onclick="window.print()" class="btn-back" style="margin-left:.5rem;background:#F0B429;color:#1A2535!important;">
-          <i class="fa fa-print"></i> Imprimir
-        </button>
+        <button onclick="window.print()" class="btn-print"><i class="fa fa-print"></i> Imprimir</button>
       </div>
     </div>
   </div>
+
+  <!-- GRÁFICA -->
   <div class="gbox">
     {% if imagen %}
       <img src="data:image/png;base64,{{ imagen }}" alt="{{ titulo }}" />
       <p class="gdesc">{{ descripcion }}</p>
     {% else %}
-      <div style="padding:4rem;color:#9aabb8;">
+      <div style="padding:3rem;color:#9aabb8;">
         <i class="fa fa-bar-chart" style="font-size:3rem;display:block;margin-bottom:1rem;"></i>
         <p>Sin datos suficientes para generar la gráfica.</p>
       </div>
+    {% endif %}
+  </div>
+
+  <!-- PRONÓSTICOS -->
+  <div class="pron-section">
+    <div class="pron-title"><i class="fa fa-line-chart"></i> Pronósticos de Tendencia — {{ titulo }}</div>
+
+    {% if pronosticos %}
+      {% for p in pronosticos %}
+      <div class="pron-card p{{ loop.index }}">
+        <div class="pron-label"><span class="pron-num">{{ loop.index }}</span>{{ p.titulo }}</div>
+        <div class="pron-text">{{ p.texto }}</div>
+        {% if p.valor %}<span class="pron-valor">{{ p.valor }}</span>{% endif %}
+      </div>
+      {% endfor %}
+    {% else %}
+      <p style="color:#999;font-size:.85rem;">Sin pronósticos disponibles.</p>
     {% endif %}
   </div>
 </div>
